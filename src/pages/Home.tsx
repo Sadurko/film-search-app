@@ -31,13 +31,15 @@ interface MovieIn {
     imdbVotes: string;
 }
 
-let movie = {} as MovieIn;
+// let movie = {} as MovieIn;
+// let movieArray = new Array<MovieIn>;
 
 const Home = () => {
 
     const [searchMovie, setSearchMovie] = useState('');
     const navigate = useNavigate();
 
+    // handling text written inside search bar
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const lowerCase = e.target.value.toLowerCase();
 
@@ -45,33 +47,15 @@ const Home = () => {
     }
 
 
-    // load APIKEY from .env file
-    const apiKey = process.env.REACT_APP_APIKEY;
-
-    const fetchJson = async(name: string) => {
-        console.log(`Fetching movie: ${name}`);
-
-        const URL = `https://www.omdbapi.com/?t=${name}&apikey=${apiKey}`;
-        const response = await fetch(URL);
-
-        const json = await response.json();
-        return json;
-    }
-
+    // when search button pressed, adds searched term into URL
     const search = (name: string) => {
-        fetchJson(name)
-        .then((value) => {
-            console.log('Success');
-            movie = Object.assign({}, value);
-
-            console.log(movie);
-
-            navigate('/searchmovies');
-        })
-        .catch((e) => {
-            console.error(e);
-            // TODO: handle error
-        })
+        if (name !== '') {
+            
+            navigate({
+                pathname: '/searchmovies',
+                search: `search=${name}&page=1`
+            });
+        }
     }
 
 
@@ -94,5 +78,5 @@ const Home = () => {
 }
 
 
-export { Home, movie };
+export { Home };
 export type { MovieIn };

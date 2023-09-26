@@ -36,7 +36,6 @@ const SearchBar: FC<Props> = ({ onChange, onSearch }) => {
                 variant="outlined"
                 sx={{
                     height: '40px',
-                    mt: '7px',
                     ml: '5px'
                 }}
             >
