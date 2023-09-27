@@ -1,4 +1,4 @@
-import { Grid, Typography } from "@mui/material";
+import { IconButton, Grid, Typography, Container } from "@mui/material";
 import React, { FC, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom"
 import MovieList from '../components/MovieList';
@@ -58,23 +58,27 @@ const SearchResults: FC = () => {
 
     return (
         <>
-            <MovieList movies={movies} />
+            <Container>
+                <MovieList movies={movies} />
+            </Container>
+        
+            <Typography sx={{ textAlign: 'center' }}>Pages</Typography>
 
-            Pages
+            <Grid container sx={{ display: 'flex', justifyContent: 'center' }}>
 
-            <Grid container>
-            {pageIndexes.map(i => (
+                {/* Switching pages */}
+                {pageIndexes.map(i => (
                     <Grid item key={i} xs={0.25}>
-                        <Typography 
-                            sx={{ cursor: 'pointer' }}
+                        <IconButton 
+                            disabled={ page === `${i + 1}` }
                             onClick={() => {
-                            setPage(`${i + 1}`);
-                            navigate({
-                                pathname: '/searchmovies',
-                                search: `search=${search}&page=${i + 1}`
-                            })
-                        }}
-                        >{i + 1}</Typography>
+                                setPage(`${i + 1}`);
+                                navigate({
+                                    pathname: '/searchmovies',
+                                    search: `search=${search}&page=${i + 1}`
+                                })
+                            }}
+                        >{i + 1}</IconButton>
                     </Grid>
                 ))}
             </Grid>

@@ -1,4 +1,4 @@
-import { Grid, CardMedia, Card, Typography } from '@mui/material';
+import { Grid, CardMedia, Card, Typography, Box } from '@mui/material';
 import React, { FC } from 'react';
 import { MovieIn } from '../pages/Home';
 import { useNavigate } from 'react-router-dom';
@@ -27,12 +27,12 @@ const MovieList: FC<Props> = ({ movies }) => {
         <>
             <Grid container>
                 {indexes.map(i => (
-                    <Grid item key={i} xs={2}>
+                    <Grid item key={i} xs={4} lg={2.4}>
                         <Card
                             onClick={() => navigateTo(movies[i].Title)}
                             sx={{
-                                width: 320,
-                                maxWidth: { xs: 320, md: 220 },
+                                width: 220,
+                                height: 375,
                                 mr: '10px',
                                 mt: '10px',
                                 alignItems: 'center',
@@ -40,13 +40,26 @@ const MovieList: FC<Props> = ({ movies }) => {
                             }}
                             
                         >
-                            <CardMedia
+                            { (movies[i].Poster === 'N/A') // in case there is no poster for the movie
+                            ? <Box
+                                sx={{
+                                    width: 200,
+                                    height: 285,
+                                    mx: 'auto',
+                                    mt: '10px',
+                                    mb: '5px',
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center'
+                                }}
+                            >
+                                <Typography>Poster not yet added</Typography>
+                            </Box>
+                            : <CardMedia
                                 component='img'
                                 sx={{
-                                    height: 428,
-                                    width: 300,
-                                    maxHeight: { xs: 428, md: 285 },
-                                    maxWidth: { xs: 300, md: 200},
+                                    height: 285,
+                                    width: 200,
                                     mx: 'auto',
                                     mt: '10px',
                                     mb: '5px'
@@ -54,12 +67,22 @@ const MovieList: FC<Props> = ({ movies }) => {
                                 image={movies[i].Poster}
                                 alt={movies[i].Title}
                             />
+                            }
 
-                            <Typography 
-                                sx={{ textAlign: 'center' }}
-                            >
-                                {movies[i].Title} ({movies[i].Year})
-                            </Typography>
+                            <Box sx={{ height: 80, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                <Typography 
+                                    sx={{
+                                        textAlign: 'center',
+                                        // limiting text for only 3 lines max
+                                        display: '-webkit-box',
+                                        overflow: 'hidden',
+                                        WebkitBoxOrient: 'vertical',
+                                        WebkitLineClamp: 3,
+                                    }}
+                                >
+                                    {movies[i].Title} ({movies[i].Year})
+                                </Typography>
+                            </Box>
 
                         </Card>
                     </Grid>
